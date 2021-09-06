@@ -8,8 +8,9 @@ URL = 'https://www.barnesandnoble.com/w/eye-of-the-world-robert-jordan/110035686
 def selenium_simulation():
     driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.get(URL)
-    opinion_parent = driver.find_elements_by_css_selector('.bv-content-summary-body-text p')
+    opinion_parent = driver.find_elements_by_css_selector('.bv-content-summary-body-text:nth-child(1)')
     opinions = [opinion.text for opinion in opinion_parent]
+
     for opinion in opinions:
         yield opinion
 
