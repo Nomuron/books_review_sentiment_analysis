@@ -1,3 +1,5 @@
+from typing import Generator
+
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -7,24 +9,20 @@ OPINION_CSS_SELECTOR = '.bv-content-summary-body-text:nth-child(1)'
 RATE_CSS_SELECTOR = '.bv-rating-stars-container .bv-off-screen'
 
 
-def opinion_rating_compositor(opinion_review: list, opinion_rate: list) -> dict:
-    sentiment_rates = []
+def opinion_rating_compositor(opinion_rating_dict: dict) -> None:
 
-    for opinion in opinion_review:
-        for rate in opinion_rate:
-            if rate >= 4:
-                sentiment_rates.append('positive')
-            elif rate <= 2:
-                sentiment_rates.append('negative')
-            else:
-                continue
+    for opinion, rating in opinion_rating_dict.items():
+        if rating >= 4:
+            opinion_rating_dict[opinion] = 'positive'
+        elif rating <= 2:
+            opinion_rating_dict[opinion] = 'negative'
+        else:
+            continue
 
-
+    print(opinion_rating_dict)
 
 
-
-
-def selenium_simulation():
+def selenium_simulation() -> Generator[dict, None, None]:
     driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.get(URL)
 
@@ -34,13 +32,13 @@ def selenium_simulation():
     rates_web_elements = driver.find_elements_by_css_selector(RATE_CSS_SELECTOR)
     rates = [rate.text[0] for rate in rates_web_elements]
 
-    for opinion in opinions:
-        yield {opinion: rates}
+    for opinion, rate in zip(opinions, rates):
+        yield {opinion: int(rate)}
 
 
 def main():
     for text in selenium_simulation():
-        print(text, '\n')
+        opinion_rating_compositor(text)
 
 
 if __name__ == '__main__':
