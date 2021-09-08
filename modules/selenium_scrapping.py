@@ -18,5 +18,8 @@ def selenium_simulation() -> Generator[dict, None, None]:
     rates_web_elements = driver.find_elements_by_css_selector(RATE_CSS_SELECTOR)
     rates = [rate.text[0] for rate in rates_web_elements]
 
+    driver.find_element_by_css_selector('#onetrust-accept-btn-handler').click()
+    driver.find_element_by_css_selector('span.bv-content-btn-pages-next').click()
+
     for opinion, rate in zip(opinions, rates):
         yield {opinion: int(rate)}
