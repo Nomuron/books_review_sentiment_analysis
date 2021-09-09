@@ -3,7 +3,7 @@ from modules import *
 
 def main():
     for text in selenium_simulation():
-        opinion_rating_compositor(text)
+        csv_writer(opinion_rating_compositor(text))
 
 
 if __name__ == '__main__':
