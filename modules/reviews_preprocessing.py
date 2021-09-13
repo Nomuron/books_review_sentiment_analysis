@@ -2,7 +2,7 @@ import csv
 import os.path
 
 
-CSV_FILE_DIRECTORY = './data/reviews.csv'
+CSV_FILE_DIRECTORY = './data/review.csv'
 
 
 def opinion_rating_compositor(opinion_rating_dict: dict) -> dict:

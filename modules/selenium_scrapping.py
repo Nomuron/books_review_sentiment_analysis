@@ -13,7 +13,7 @@ def selenium_simulation() -> Generator[dict, None, None]:
     driver.get(URL)
 
     opinion_web_elements = driver.find_elements_by_css_selector(OPINION_CSS_SELECTOR)
-    opinions = [opinion.text for opinion in opinion_web_elements]
+    opinions = [opinion.text.replace("\n", " ").replace("\"", "") for opinion in opinion_web_elements]
 
     rates_web_elements = driver.find_elements_by_css_selector(RATE_CSS_SELECTOR)
     rates = [rate.text[0] for rate in rates_web_elements]
