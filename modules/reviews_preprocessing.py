@@ -2,7 +2,7 @@ import csv
 import os.path
 
 
-CSV_FILE_DIRECTORY = './data/review.csv'
+CSV_FILE_DIRECTORY = './data/reviews.csv'
 
 
 def opinion_rating_compositor(opinion_rating_dict: dict) -> dict:
@@ -18,13 +18,18 @@ def opinion_rating_compositor(opinion_rating_dict: dict) -> dict:
     return opinion_rating_dict
 
 
+def file_checker() -> bool:
+    if os.path.isfile(CSV_FILE_DIRECTORY):
+        return True
+    else:
+        return False
+
+
 def csv_writer(review: dict) -> None:
+    is_file = file_checker()
     with open(CSV_FILE_DIRECTORY, 'a+') as review_data_csv:
         csv_review_writer = csv.writer(review_data_csv, delimiter=';')
-
-        if os.path.isfile(CSV_FILE_DIRECTORY):
-            pass
-        else:
-            csv_review_writer.writerow(['opinion', 'rating'])
+        if not is_file:
+            csv_review_writer.writerow(['Opinion', 'Rating'])
 
         csv_review_writer.writerow(*review.items())
